@@ -6,14 +6,16 @@ template <typename T>
 class ofxFlowNodeValue : public ofxFlowNode
 {
 	public:
+		
+		ofPtr<ofParameter<T> > value;
+	
 		ofxFlowNodeValue(string name, T val)
 		:ofxFlowNode(name)
 		{
 			value = ofPtr<ofParameter<T> >(new ofParameter<T>(val));
 			_addOutput("value");
-		};
-	
-		ofPtr<ofParameter<T> > value;
+		}
+		
 	
 		virtual void evaluate()
 		{

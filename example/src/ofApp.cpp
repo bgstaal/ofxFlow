@@ -1,6 +1,8 @@
 #include "ofApp.h"
 #include "ofxFlowNodeAdd.h"
 #include "ofxFlowNodeValue.h"
+#include "ofxFlowNodeElapsedTime.h"
+#include "ofxFlowNodeSin.h"
 
 //--------------------------------------------------------------
 void ofApp::setup()
@@ -10,15 +12,13 @@ void ofApp::setup()
 	valueNode->rect = ofRectangle(100, 100, 200, 40);
 	_graph.addNode(valueNode);
 	
-	ofPtr<ofxFlowNodeValue<float> > valueNode2 = ofPtr<ofxFlowNodeValue<float> >(new ofxFlowNodeValue<float>("PI", M_PI));
-	valueNode2->rect = ofRectangle(100, 300, 200, 40);
-	_graph.addNode(valueNode2);
+	ofPtr<ofxFlowNodeValue<float> > timeNode = ofPtr<ofxFlowNodeElapsedTime<float> >(new ofxFlowNodeElapsedTime<float>());
+	timeNode->rect = ofRectangle(100, 300, 200, 40);
+	_graph.addNode(timeNode);
 	
 	ofPtr<ofxFlowNodeAdd> additionNode = ofPtr<ofxFlowNodeAdd>(new ofxFlowNodeAdd());
 	additionNode->rect = ofRectangle(350, 100, 200, 150);
 	_graph.addNode(additionNode);
-	
-	//additionNode->value1 = 33.0f;
 	
 	ofPtr<ofxFlowNodeAdd> additionNode2 = ofPtr<ofxFlowNodeAdd>(new ofxFlowNodeAdd());
 	additionNode2->rect = ofRectangle(600, 250, 200, 150);
@@ -29,13 +29,20 @@ void ofApp::setup()
 	additionNode3->rect = ofRectangle(850, 400, 200, 150);
 	_graph.addNode(additionNode3);
 	
+	ofPtr<ofxFlowNodeSin<float> > sinNode = ofPtr<ofxFlowNodeSin<float> >(new ofxFlowNodeSin<float>());
+	sinNode->rect = ofRectangle(350, 400, 200, 150);
+	_graph.addNode(sinNode);
+	
 	additionNode->connectInputTo("value1", valueNode.get(), "value");
 	additionNode->connectInputTo("value2", valueNode.get(), "value");
+	
 	additionNode2->connectInputTo("value1", additionNode.get(), "result");
 	additionNode2->connectInputTo("value2", valueNode.get(), "value");
-	additionNode3->connectInputTo("value2", valueNode2.get(), "value");
-	additionNode3->connectInputTo("value1", additionNode2.get(), "result");
-	valueNode->connectOutputTo("value", additionNode.get(), "value2");
+	
+	additionNode3->connectInputTo("value1", sinNode.get(), "result");
+	additionNode3->connectInputTo("value2", additionNode2.get(), "result");
+	sinNode->connectInputTo("value1", timeNode.get(), "value");
+	
 }
 
 //--------------------------------------------------------------

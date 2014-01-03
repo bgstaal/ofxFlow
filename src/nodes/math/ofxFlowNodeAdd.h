@@ -26,11 +26,10 @@ class ofxFlowNodeAdd : public ofxFlowNode
 		
 		void evaluate()
 		{
-			ofPtr<ofAbstractParameter> p1 = _getInputValue("value1");
-			ofPtr<ofAbstractParameter> p2 = _getInputValue("value2");
-			float v1 = dynamic_cast<ofParameter<float> *>(p1.get())->get();
-			float v2 = dynamic_cast<ofParameter<float> *>(p2.get())->get();
+			float v1 = _getInputValue<float>("value1");
+			float v2 = _getInputValue<float>("value2");
 			
 			_setOutputValue("result", ofPtr<ofAbstractParameter>(new ofParameter<float>(v1 + v2)));
+			cout << getOutputValue("result")->toString() << endl;
 		}
 };

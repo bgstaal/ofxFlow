@@ -49,6 +49,16 @@ class ofxFlowNode
 		void _addInput(string name);
 		void _addOutput(string name);
 		void _setOutputValue(string name, ofPtr<ofAbstractParameter> value);
+	
+		template <typename inType>
+		inType _getInputValue(string name)
+		{
+			ofPtr<ofAbstractParameter> p = _getInputValue(name);
+			inType v = dynamic_cast<ofParameter<inType> *>(p.get())->get();
+			
+			return v;
+		}
+	
 		ofPtr<ofAbstractParameter> _getInputValue(string name);
 };
 
