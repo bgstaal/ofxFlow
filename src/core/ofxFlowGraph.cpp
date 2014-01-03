@@ -13,7 +13,7 @@ void ofxFlowGraph::update()
 	{
 		ofxFlowNodePtr node = (*n);
 		
-		if (node->_outputConnections.size() == 0) // this is an endpoint
+		if (node->_outputConnections.size() == 0) // this is an endpoint so start evaluating backwards from here
 		{
 			_evaluateInputs(node.get());
 		}
@@ -26,6 +26,7 @@ void ofxFlowGraph::_evaluateInputs(ofxFlowNode *node)
 	
 	for (; c != node->_inputConnections.end(); c++)
 	{
+		// traverese the tree backwards and evaluate all inputs and pass the values on down the tree
 		_evaluateInputs(c->second.node);
 		node->setInputValue(c->first, c->second.node->getOutputValue(c->second.paramName));
 	}
