@@ -26,7 +26,10 @@ class ofxFlowNode
 		ofxFlowNode(std::string name);
 	
 		virtual void evaluate() = 0;
-		virtual void draw();
+		virtual void customDraw();
+	
+		// Don't override. Override customDraw instead.
+		void draw();
 	
 		void connectInputTo(string inputParamName, ofxFlowNode *outputNode, string outputParamName);
 		void connectOutputTo(string outputParamName, ofxFlowNode *inputNode, string inputParamName);

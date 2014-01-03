@@ -21,15 +21,15 @@ class ofxFlowNodeValue : public ofxFlowNode
 			_setOutputValue("value", value);
 		}
 	
-		virtual void draw ()
+		virtual void customDraw ()
 		{
-			ofxFlowNode::draw();
+			ofxFlowNode::customDraw();
 			
 			stringstream ss;
 			ss << value->toString() << endl;
 			
 			ofSetColor(150);
-			ofDrawBitmapString(ss.str(), rect.position + ofPoint(rect.width - 40, 20));
+			ofDrawBitmapString(ss.str(), ofPoint(rect.width - 40, 20));
 		}
 };
 

@@ -96,24 +96,32 @@ void ofxFlowNode::_addOutput(string name)
 	_outputs.push_back(name);
 }
 
-void ofxFlowNode::draw()
+void ofxFlowNode::customDraw()
 {
 	ofSetColor(0, 0, 0, 100);
-	ofRect(rect);
+	ofRect(0, 0, rect.width, rect.height);
 	ofSetColor(255, 255, 255);
-	ofDrawBitmapString(name, rect.position + ofPoint(10, 20));
+	ofDrawBitmapString(name, 10, 20);
 	
 	ofSetColor(255, 0, 0);
 	
 	for (int i = 0; i < _inputs.size(); i++)
 	{
-		ofRect(rect.x, rect.y + 30 + (15*i), 10, 10);
+		ofRect(0, 30 + (15*i), 10, 10);
 	}
 	
 	ofSetColor(0, 255, 0);
 	
 	for (int i = 0; i < _outputs.size(); i++)
 	{
-		ofRect(rect.x + rect.width - 10, rect.y + 30 + (15*i), 10, 10);
+		ofRect(rect.width - 10, 30 + (15*i), 10, 10);
 	}
+}
+
+void ofxFlowNode::draw()
+{
+	ofPushMatrix();
+	ofTranslate(rect.position);
+		customDraw();
+	ofPopMatrix();
 }

@@ -5,6 +5,7 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+	
 	ofPtr<ofxFlowNodeValue<float> > valueNode = ofPtr<ofxFlowNodeValue<float> >(new ofxFlowNodeValue<float>("One point five", 1.5f));
 	valueNode->rect = ofRectangle(100, 100, 200, 40);
 	_graph.addNode(valueNode);

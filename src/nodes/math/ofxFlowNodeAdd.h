@@ -7,7 +7,7 @@ class ofxFlowNodeAdd : public ofxFlowNode
 {
 	public:
 		ofxFlowNodeAdd();
-		virtual void draw();
+		virtual void customDraw();
 		virtual void evaluate();
 };
 

@@ -9,14 +9,14 @@ ofxFlowNodeAdd::ofxFlowNodeAdd ()
 	_addOutput("result");
 }
 
-void ofxFlowNodeAdd::draw()
+void ofxFlowNodeAdd::customDraw()
 {
-	ofxFlowNode::draw();
+	ofxFlowNode::customDraw();
 	stringstream ss;
 	ss << _getInputValue("value1")->toString() << " + " << _getInputValue("value2")->toString() << " = " << getOutputValue("result")->toString() << endl;
 	
 	ofSetColor(150);
-	ofDrawBitmapString(ss.str(), rect.position + ofPoint(10, 100));
+	ofDrawBitmapString(ss.str(), 10, 100);
 }
 
 void ofxFlowNodeAdd::evaluate()
