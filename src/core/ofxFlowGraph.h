@@ -14,7 +14,7 @@ class ofxFlowGraph
 		vector<ofxFlowNodePtr> _nodes;
 	
 		void _drawInputConnections(ofxFlowNode *node);
-		void _updateInputs(ofxFlowNode *node);
+		void _evaluateInputs(ofxFlowNode *node);
 };
 
 #endif /* defined(__emptyExample__NodeManager__) */

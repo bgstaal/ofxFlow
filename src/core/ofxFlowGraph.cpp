@@ -15,18 +15,18 @@ void ofxFlowGraph::update()
 		
 		if (node->_outputConnections.size() == 0) // this is an endpoint
 		{
-			_updateInputs(node.get());
+			_evaluateInputs(node.get());
 		}
 	}
 }
 
-void ofxFlowGraph::_updateInputs(ofxFlowNode *node)
+void ofxFlowGraph::_evaluateInputs(ofxFlowNode *node)
 {
 	map<string, ofxFlowNode::Connection>::iterator c = node->_inputConnections.begin();
 	
 	for (; c != node->_inputConnections.end(); c++)
 	{
-		_updateInputs(c->second.node);
+		_evaluateInputs(c->second.node);
 		node->setInputValue(c->first, c->second.node->getOutputValue(c->second.paramName));
 	}
 	
