@@ -8,7 +8,7 @@
 
 class Node
 {
-	friend class Graph;
+	friend class ofxFlowGraph;
 	
 	public:
 	

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Graph.h"
+#include "ofxFlowGraph.h"
 
 class ofApp : public ofBaseApp
 {
@@ -20,7 +20,7 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 	
-	Graph _graph;
+	ofxFlowGraph _graph;
 	
 	
 };

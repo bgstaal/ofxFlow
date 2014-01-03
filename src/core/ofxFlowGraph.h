@@ -3,7 +3,7 @@
 
 #include "Node.h"
 
-class Graph
+class ofxFlowGraph
 {	
 	public:
 		void addNode(NodePtr node);

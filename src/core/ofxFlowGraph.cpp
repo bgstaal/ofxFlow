@@ -1,13 +1,13 @@
 #include "ofGraphics.h"
-#include "Graph.h"
+#include "ofxFlowGraph.h"
 #include "ofPath.h"
 
-void Graph::addNode (NodePtr node)
+void ofxFlowGraph::addNode (NodePtr node)
 {
 	_nodes.push_back(node);
 }
 
-void Graph::update()
+void ofxFlowGraph::update()
 {
 	for (vector<NodePtr>::iterator n = _nodes.begin(); n != _nodes.end(); n++)
 	{
@@ -20,7 +20,7 @@ void Graph::update()
 	}
 }
 
-void Graph::_updateInputs(Node *node)
+void ofxFlowGraph::_updateInputs(Node *node)
 {
 	map<string, Node::Connection>::iterator c = node->_inputConnections.begin();
 	
@@ -33,7 +33,7 @@ void Graph::_updateInputs(Node *node)
 	node->evaluate();
 }
 
-void Graph::draw ()
+void ofxFlowGraph::draw ()
 {
 	for (vector<NodePtr>::iterator n = _nodes.begin(); n != _nodes.end(); n++)
 	{
@@ -48,7 +48,7 @@ void Graph::draw ()
 	}
 }
 
-void Graph::_drawInputConnections(Node *node)
+void ofxFlowGraph::_drawInputConnections(Node *node)
 {
 	map<string, Node::Connection>::iterator c = node->_inputConnections.begin();
 	
