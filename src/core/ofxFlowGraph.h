@@ -1,5 +1,4 @@
-#ifndef __emptyExample__NodeManager__
-#define __emptyExample__NodeManager__
+#pragma once
 
 #include "ofxFlowNode.h"
 
@@ -16,5 +15,3 @@ class ofxFlowGraph
 		void _drawInputConnections(ofxFlowNode *node);
 		void _evaluateInputs(ofxFlowNode *node);
 };
-
-#endif /* defined(__emptyExample__NodeManager__) */

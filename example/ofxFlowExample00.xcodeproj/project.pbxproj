@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4E91BECF1877615900F5C2F5 /* ofxFlowGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E91BEC51877615900F5C2F5 /* ofxFlowGraph.cpp */; };
 		4E91BED01877615900F5C2F5 /* ofxFlowNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E91BEC71877615900F5C2F5 /* ofxFlowNode.cpp */; };
-		4E91BED11877615900F5C2F5 /* ofxFlowNodeAdd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E91BECB1877615900F5C2F5 /* ofxFlowNodeAdd.cpp */; };
 		4EA6DB9617C549BD0014CE1C /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA6DB9417C549BD0014CE1C /* ofApp.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
@@ -67,7 +66,6 @@
 		4E91BEC61877615900F5C2F5 /* ofxFlowGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFlowGraph.h; sourceTree = "<group>"; };
 		4E91BEC71877615900F5C2F5 /* ofxFlowNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFlowNode.cpp; sourceTree = "<group>"; };
 		4E91BEC81877615900F5C2F5 /* ofxFlowNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFlowNode.h; sourceTree = "<group>"; };
-		4E91BECB1877615900F5C2F5 /* ofxFlowNodeAdd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFlowNodeAdd.cpp; sourceTree = "<group>"; };
 		4E91BECC1877615900F5C2F5 /* ofxFlowNodeAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFlowNodeAdd.h; sourceTree = "<group>"; };
 		4E91BECE1877615900F5C2F5 /* ofxFlowNodeValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFlowNodeValue.h; sourceTree = "<group>"; };
 		4EA6DB9417C549BD0014CE1C /* ofApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofApp.cpp; sourceTree = "<group>"; };
@@ -157,7 +155,6 @@
 		4E91BECA1877615900F5C2F5 /* math */ = {
 			isa = PBXGroup;
 			children = (
-				4E91BECB1877615900F5C2F5 /* ofxFlowNodeAdd.cpp */,
 				4E91BECC1877615900F5C2F5 /* ofxFlowNodeAdd.h */,
 			);
 			path = math;
@@ -345,7 +342,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E91BED11877615900F5C2F5 /* ofxFlowNodeAdd.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				4E91BECF1877615900F5C2F5 /* ofxFlowGraph.cpp in Sources */,
 				4EA6DB9617C549BD0014CE1C /* ofApp.cpp in Sources */,

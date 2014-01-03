@@ -1,5 +1,4 @@
-#ifndef __emptyExample__NodeValue__
-#define __emptyExample__NodeValue__
+#pragma once
 
 #include "ofxFlowNode.h"
 
@@ -32,5 +31,3 @@ class ofxFlowNodeValue : public ofxFlowNode
 			ofDrawBitmapString(ss.str(), ofPoint(rect.width - 40, 20));
 		}
 };
-
-#endif /* defined(__emptyExample__NodeValue__) */

@@ -1,5 +1,4 @@
-#ifndef __emptyExample__Node__
-#define __emptyExample__Node__
+#pragma once
 
 #include <map>
 #include "ofTypes.h"
@@ -54,5 +53,3 @@ class ofxFlowNode
 };
 
 typedef ofPtr<ofxFlowNode> ofxFlowNodePtr;
-
-#endif /* defined(__emptyExample__Node__) */
