@@ -2,16 +2,16 @@
 #include "ofxFlowGraph.h"
 #include "ofPath.h"
 
-void ofxFlowGraph::addNode (NodePtr node)
+void ofxFlowGraph::addNode (ofxFlowNodePtr node)
 {
 	_nodes.push_back(node);
 }
 
 void ofxFlowGraph::update()
 {
-	for (vector<NodePtr>::iterator n = _nodes.begin(); n != _nodes.end(); n++)
+	for (vector<ofxFlowNodePtr>::iterator n = _nodes.begin(); n != _nodes.end(); n++)
 	{
-		NodePtr node = (*n);
+		ofxFlowNodePtr node = (*n);
 		
 		if (node->_outputConnections.size() == 0) // this is an endpoint
 		{
@@ -20,9 +20,9 @@ void ofxFlowGraph::update()
 	}
 }
 
-void ofxFlowGraph::_updateInputs(Node *node)
+void ofxFlowGraph::_updateInputs(ofxFlowNode *node)
 {
-	map<string, Node::Connection>::iterator c = node->_inputConnections.begin();
+	map<string, ofxFlowNode::Connection>::iterator c = node->_inputConnections.begin();
 	
 	for (; c != node->_inputConnections.end(); c++)
 	{
@@ -35,9 +35,9 @@ void ofxFlowGraph::_updateInputs(Node *node)
 
 void ofxFlowGraph::draw ()
 {
-	for (vector<NodePtr>::iterator n = _nodes.begin(); n != _nodes.end(); n++)
+	for (vector<ofxFlowNodePtr>::iterator n = _nodes.begin(); n != _nodes.end(); n++)
 	{
-		NodePtr node = (*n);
+		ofxFlowNodePtr node = (*n);
 		
 		if (node->_outputConnections.size() == 0) // this is an endpoint
 		{
@@ -48,15 +48,15 @@ void ofxFlowGraph::draw ()
 	}
 }
 
-void ofxFlowGraph::_drawInputConnections(Node *node)
+void ofxFlowGraph::_drawInputConnections(ofxFlowNode *node)
 {
-	map<string, Node::Connection>::iterator c = node->_inputConnections.begin();
+	map<string, ofxFlowNode::Connection>::iterator c = node->_inputConnections.begin();
 	
 	ofSetColor(255);
 	
 	for (; c != node->_inputConnections.end(); c++)
 	{
-		Node *node2 = c->second.node;
+		ofxFlowNode *node2 = c->second.node;
 		
 		int outIndex = node2->getOutputIndex(c->second.paramName);
 		int inIndex = node->getInputIndex(c->first);

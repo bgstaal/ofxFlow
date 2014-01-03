@@ -1,20 +1,20 @@
 #ifndef __emptyExample__NodeManager__
 #define __emptyExample__NodeManager__
 
-#include "Node.h"
+#include "ofxFlowNode.h"
 
 class ofxFlowGraph
 {	
 	public:
-		void addNode(NodePtr node);
+		void addNode(ofxFlowNodePtr node);
 		void update();
 		void draw();
 	
 	private:
-		vector<NodePtr> _nodes;
+		vector<ofxFlowNodePtr> _nodes;
 	
-		void _drawInputConnections(Node *node);
-		void _updateInputs(Node *node);
+		void _drawInputConnections(ofxFlowNode *node);
+		void _updateInputs(ofxFlowNode *node);
 };
 
 #endif /* defined(__emptyExample__NodeManager__) */

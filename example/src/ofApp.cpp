@@ -1,30 +1,30 @@
 #include "ofApp.h"
-#include "NodeAdd.h"
-#include "NodeValue.h"
+#include "ofxFlowNodeAdd.h"
+#include "ofxFlowNodeValue.h"
 
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-	ofPtr<NodeValue<float> > valueNode = ofPtr<NodeValue<float> >(new NodeValue<float>("One point five", 1.5f));
+	ofPtr<ofxFlowNodeValue<float> > valueNode = ofPtr<ofxFlowNodeValue<float> >(new ofxFlowNodeValue<float>("One point five", 1.5f));
 	valueNode->rect = ofRectangle(100, 100, 200, 40);
 	_graph.addNode(valueNode);
 	
-	ofPtr<NodeValue<float> > valueNode2 = ofPtr<NodeValue<float> >(new NodeValue<float>("PI", M_PI));
+	ofPtr<ofxFlowNodeValue<float> > valueNode2 = ofPtr<ofxFlowNodeValue<float> >(new ofxFlowNodeValue<float>("PI", M_PI));
 	valueNode2->rect = ofRectangle(100, 300, 200, 40);
 	_graph.addNode(valueNode2);
 	
-	ofPtr<NodeAdd> additionNode = ofPtr<NodeAdd>(new NodeAdd());
+	ofPtr<ofxFlowNodeAdd> additionNode = ofPtr<ofxFlowNodeAdd>(new ofxFlowNodeAdd());
 	additionNode->rect = ofRectangle(350, 100, 200, 150);
 	_graph.addNode(additionNode);
 	
 	//additionNode->value1 = 33.0f;
 	
-	ofPtr<NodeAdd> additionNode2 = ofPtr<NodeAdd>(new NodeAdd());
+	ofPtr<ofxFlowNodeAdd> additionNode2 = ofPtr<ofxFlowNodeAdd>(new ofxFlowNodeAdd());
 	additionNode2->rect = ofRectangle(600, 250, 200, 150);
 	_graph.addNode(additionNode2);
 	
 	// TODO: add validation
-	ofPtr<NodeAdd> additionNode3 = ofPtr<NodeAdd>(new NodeAdd());
+	ofPtr<ofxFlowNodeAdd> additionNode3 = ofPtr<ofxFlowNodeAdd>(new ofxFlowNodeAdd());
 	additionNode3->rect = ofRectangle(850, 400, 200, 150);
 	_graph.addNode(additionNode3);
 	
