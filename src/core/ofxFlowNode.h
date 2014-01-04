@@ -30,12 +30,16 @@ class ofxFlowNode
 		// Don't override. Override customDraw instead.
 		void draw();
 	
-		void connectInputTo(string inputParamName, ofxFlowNode *outputNode, string outputParamName);
-		void connectOutputTo(string outputParamName, ofxFlowNode *inputNode, string inputParamName);
-		int getInputIndex(string inputName);
-		int getOutputIndex(string outputName);
-		void setInputValue(string name, ofPtr<ofAbstractParameter> value);
-		ofPtr<ofAbstractParameter> getOutputValue(string name);
+		void connectInputTo(const string &inputParamName, ofxFlowNode *outputNode, const string &outputParamName);
+		void connectOutputTo(const string &outputParamName, ofxFlowNode *inputNode, const string &inputParamName);
+		void setInputValue(const string &name, ofPtr<ofAbstractParameter> value);
+		int getInputIndex(const string &inputName);
+		int getOutputIndex(const string &outputName);
+		ofRectangle getInputRect(const int &index);
+		ofRectangle getInputRect(const string &inputName);
+		ofRectangle getOutputRect(const int &index);
+		ofRectangle getOutputRect(const string &outputName);
+		ofPtr<ofAbstractParameter> getOutputValue(const string name);
 	
 	protected:
 	

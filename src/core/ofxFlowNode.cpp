@@ -7,7 +7,7 @@ ofxFlowNode::ofxFlowNode (string name)
 	
 }
 
-void ofxFlowNode::connectInputTo(string inputParamName, ofxFlowNode *outputNode, string outputParamName)
+void ofxFlowNode::connectInputTo(const string &inputParamName, ofxFlowNode *outputNode, const string &outputParamName)
 {
 	map<string, Connection>::iterator i = _inputConnections.find(inputParamName);
 	
@@ -20,7 +20,7 @@ void ofxFlowNode::connectInputTo(string inputParamName, ofxFlowNode *outputNode,
 	outputNode->connectOutputTo(outputParamName, this, inputParamName);
 }
 
-void ofxFlowNode::connectOutputTo(string outputParamName, ofxFlowNode *inputNode, string inputParamName)
+void ofxFlowNode::connectOutputTo(const string &outputParamName, ofxFlowNode *inputNode, const string &inputParamName)
 {
 	map<string, Connection>::iterator i = _outputConnections.find(outputParamName);
 	
@@ -38,7 +38,7 @@ ofPtr<ofAbstractParameter> ofxFlowNode::getOutputValue(string name)
 	return _outputValues.find(name)->second;
 }
 
-void ofxFlowNode::setInputValue(string name, ofPtr<ofAbstractParameter> value)
+void ofxFlowNode::setInputValue(const string &name, ofPtr<ofAbstractParameter> value)
 {
 	_inputValues[name] = value;
 	//_inputValues.insert(pair<string, ofPtr<ofAbstractParameter> >(name, value));
@@ -58,7 +58,7 @@ ofPtr<ofAbstractParameter> ofxFlowNode::_getInputValue(string name)
 
 
 
-int ofxFlowNode::getInputIndex(string inputName)
+int ofxFlowNode::getInputIndex(const string &inputName)
 {
 	for (int i = 0; i < _inputs.size(); i++)
 	{
@@ -72,7 +72,7 @@ int ofxFlowNode::getInputIndex(string inputName)
 }
 
 
-int ofxFlowNode::getOutputIndex(string outputName)
+int ofxFlowNode::getOutputIndex(const string &outputName)
 {
 	for (int i = 0; i < _outputs.size(); i++)
 	{
@@ -84,7 +84,27 @@ int ofxFlowNode::getOutputIndex(string outputName)
 	
 	return -1;
 }
- 
+
+ofRectangle ofxFlowNode::getInputRect(const int &index)
+{
+	return ofRectangle(0, 30 + (15 * index), 10, 10);
+}
+
+ofRectangle ofxFlowNode::getInputRect(const string &inputName)
+{
+	return getInputRect(getInputIndex(inputName));
+}
+
+ofRectangle ofxFlowNode::getOutputRect(const int &index)
+{
+	return ofRectangle(rect.width - 10, 30 + (15 * index), 10, 10);
+}
+
+ofRectangle ofxFlowNode::getOutputRect(const string &outputName)
+{
+	return getOutputRect(getOutputIndex(outputName));
+}
+
 
 void ofxFlowNode::_addInput(string name)
 {
@@ -107,14 +127,14 @@ void ofxFlowNode::customDraw()
 	
 	for (int i = 0; i < _inputs.size(); i++)
 	{
-		ofRect(0, 30 + (15*i), 10, 10);
+		ofRect(getInputRect(i));
 	}
 	
 	ofSetColor(0, 255, 0);
 	
 	for (int i = 0; i < _outputs.size(); i++)
 	{
-		ofRect(rect.width - 10, 30 + (15*i), 10, 10);
+		ofRect(getOutputRect(i));
 	}
 }
 

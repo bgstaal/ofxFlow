@@ -60,13 +60,10 @@ void ofxFlowGraph::_drawInputConnections(ofxFlowNode *node)
 	{
 		ofxFlowNode *node2 = c->second.node;
 		
-		int outIndex = node2->getOutputIndex(c->second.paramName);
-		int inIndex = node->getInputIndex(c->first);
-		ofPoint p1 = node2->rect.position;
-		p1.x += node2->rect.width;
-		p1.y += 35 + (15*outIndex);
-		ofPoint p2 = node->rect.position;
-		p2.y += 35 + (15*inIndex);
+		ofRectangle r1 = node2->getOutputRect(c->second.paramName);
+		ofRectangle r2 = node->getInputRect(c->first);
+		ofPoint p1 = node2->rect.position + r1.position + (r1.width*.5f);
+		ofPoint p2 = node->rect.position + r2.position + (r1.width*.5f);
 		
 		glBegin(GL_LINES);
 			glColor3f(0.0f, 1.0f, 0.0f);
