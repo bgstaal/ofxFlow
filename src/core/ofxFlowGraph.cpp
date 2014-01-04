@@ -5,13 +5,14 @@
 void ofxFlowGraph::addNode (ofxFlowNodePtr node)
 {
 	_nodes.push_back(node);
+	ofRegisterMouseEvents(this);
 }
 
 void ofxFlowGraph::update()
 {
 	for (vector<ofxFlowNodePtr>::iterator n = _nodes.begin(); n != _nodes.end(); n++)
 	{
-		ofxFlowNodePtr node = (*n);
+		ofxFlowNodePtr &node = (*n);
 		
 		if (node->_outputConnections.size() == 0) // this is an endpoint so start evaluating backwards from here
 		{
@@ -38,7 +39,7 @@ void ofxFlowGraph::draw ()
 {
 	for (vector<ofxFlowNodePtr>::iterator n = _nodes.begin(); n != _nodes.end(); n++)
 	{
-		ofxFlowNodePtr node = (*n);
+		ofxFlowNodePtr &node = (*n);
 		
 		if (node->_outputConnections.size() == 0) // this is an endpoint
 		{
@@ -77,4 +78,41 @@ void ofxFlowGraph::_drawInputConnections(ofxFlowNode *node)
 		_drawInputConnections(node2);
 	}
 }
+
+void ofxFlowGraph::mousePressed(ofMouseEventArgs &e)
+{
+	for (vector<ofxFlowNodePtr>::iterator n = _nodes.begin(); n != _nodes.end(); n++)
+	{
+		ofxFlowNodePtr &node = *n;
+		if (node->rect.inside(e))
+		{
+			_nodesBeingDragged.push_back(node);
+			_nodeOrigRect[node] = node->rect;
+			break;
+		}
+	}
+	
+	_prevMousePos = e;
+}
+
+void ofxFlowGraph::mouseReleased(ofMouseEventArgs &e)
+{
+	_nodesBeingDragged.clear();
+}
+
+void ofxFlowGraph::mouseMoved(ofMouseEventArgs &e)
+{
+	
+}
+
+void ofxFlowGraph::mouseDragged(ofMouseEventArgs &e)
+{
+	for (vector<ofxFlowNodePtr>::iterator n = _nodesBeingDragged.begin(); n != _nodesBeingDragged.end(); n++)
+	{
+		ofxFlowNodePtr &node = *n;
+		node->rect.position = _nodeOrigRect[node].position - (_prevMousePos - e);
+	}
+}
+
+
 

@@ -30,6 +30,5 @@ class ofxFlowNodeAdd : public ofxFlowNode
 			float v2 = _getInputValue<float>("value2");
 			
 			_setOutputValue("result", ofPtr<ofAbstractParameter>(new ofParameter<float>(v1 + v2)));
-			cout << getOutputValue("result")->toString() << endl;
 		}
 };
