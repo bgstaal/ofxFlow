@@ -29,6 +29,8 @@ class ofxFlowNode
 	
 		// Don't override. Override customDraw instead.
 		void draw();
+		void mousePressed(const ofPoint &p);
+		void mouseReleased(const ofPoint &p);
 	
 		void connectInputTo(const string &inputParamName, ofxFlowNode *outputNode, const string &outputParamName);
 		void connectOutputTo(const string &outputParamName, ofxFlowNode *inputNode, const string &inputParamName);

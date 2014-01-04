@@ -78,23 +78,39 @@ void ofxFlowGraph::_drawInputConnections(ofxFlowNode *node)
 
 void ofxFlowGraph::mousePressed(ofMouseEventArgs &e)
 {
-	for (vector<ofxFlowNodePtr>::iterator n = _nodes.begin(); n != _nodes.end(); n++)
+	_prevMousePos = e;
+	
+	for (vector<ofxFlowNodePtr>::reverse_iterator n = _nodes.rbegin(); n != _nodes.rend(); n++)
 	{
 		ofxFlowNodePtr &node = *n;
 		if (node->rect.inside(e))
 		{
+			ofPoint p = e;
+			e -= node->rect.position;
+			node->mousePressed(p);
+			
 			_nodesBeingDragged.push_back(node);
 			_nodeOrigRect[node] = node->rect;
 			break;
 		}
 	}
-	
-	_prevMousePos = e;
 }
 
 void ofxFlowGraph::mouseReleased(ofMouseEventArgs &e)
 {
 	_nodesBeingDragged.clear();
+	
+	for (vector<ofxFlowNodePtr>::reverse_iterator n = _nodes.rbegin(); n != _nodes.rend(); n++)
+	{
+		ofxFlowNodePtr &node = *n;
+		if (node->rect.inside(e))
+		{
+			ofPoint p = e;
+			e -= node->rect.position;
+			node->mouseReleased(p);
+			break;
+		}
+	}
 }
 
 void ofxFlowGraph::mouseMoved(ofMouseEventArgs &e)

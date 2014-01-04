@@ -116,6 +116,24 @@ void ofxFlowNode::_addOutput(string name)
 	_outputs.push_back(name);
 }
 
+void ofxFlowNode::mousePressed(const ofPoint &p)
+{
+	ofLog() << name << " mouse pressed" << endl;
+}
+
+void ofxFlowNode::mouseReleased(const ofPoint &p)
+{
+	ofLog() << name << " mouse released" << endl;
+}
+
+void ofxFlowNode::draw()
+{
+	ofPushMatrix();
+	ofTranslate(rect.position);
+		customDraw();
+	ofPopMatrix();
+}
+
 void ofxFlowNode::customDraw()
 {
 	ofSetColor(0, 0, 0, 100);
@@ -127,21 +145,13 @@ void ofxFlowNode::customDraw()
 	
 	for (int i = 0; i < _inputs.size(); i++)
 	{
-		ofRect(getInputRect(i));
+		ofCircle(getInputRect(i).getCenter(), 3);
 	}
 	
 	ofSetColor(0, 255, 0);
 	
 	for (int i = 0; i < _outputs.size(); i++)
 	{
-		ofRect(getOutputRect(i));
+		ofCircle(getOutputRect(i).getCenter(), 3);
 	}
-}
-
-void ofxFlowNode::draw()
-{
-	ofPushMatrix();
-	ofTranslate(rect.position);
-		customDraw();
-	ofPopMatrix();
 }
