@@ -105,6 +105,12 @@ ofRectangle ofxFlowNode::getOutputRect(const string &outputName)
 	return getOutputRect(getOutputIndex(outputName));
 }
 
+bool ofxFlowNode::isDraggableAtPoint(const ofPoint &p)
+{
+	// return false if mouse pointer is over input/output
+	if (getOutputIndexAtPoint(p) != -1 || getInputIndexAtPoint(p) != -1) return false;
+	return true;
+}
 
 void ofxFlowNode::_addInput(string name)
 {
@@ -118,12 +124,50 @@ void ofxFlowNode::_addOutput(string name)
 
 void ofxFlowNode::mousePressed(const ofPoint &p)
 {
-	ofLog() << name << " mouse pressed" << endl;
+	int inIndex = getInputIndexAtPoint(p);
+	int outIndex = getOutputIndexAtPoint(p);
+	
+	if (inIndex >= 0) _notifyEvent(inputMouseDown, inIndex);
+	if (outIndex >= 0) _notifyEvent(outputMouseDown, outIndex);
 }
 
 void ofxFlowNode::mouseReleased(const ofPoint &p)
 {
-	ofLog() << name << " mouse released" << endl;
+	int inIndex = getInputIndexAtPoint(p);
+	int outIndex = getOutputIndexAtPoint(p);
+	
+	if (inIndex >= 0) _notifyEvent(inputMouseUp, inIndex);
+	if (outIndex >= 0) _notifyEvent(outputMouseUp, outIndex);
+}
+
+void ofxFlowNode::_notifyEvent(ofEvent<ofxFlowNode::ofxFlowNodeEventArgs> &event, int index)
+{
+	ofxFlowNodeEventArgs a;
+	a.index = index;
+	a.node = this;
+	ofNotifyEvent(event, a, this);
+}
+
+int ofxFlowNode::getInputIndexAtPoint(const ofPoint &p)
+{
+	for (int i = 0; i < _inputs.size(); i++)
+	{
+		if (getInputRect(i).inside(p))
+			return i;
+	}
+	
+	return -1;
+}
+
+int ofxFlowNode::getOutputIndexAtPoint(const ofPoint &p)
+{
+	for (int i = 0; i < _outputs.size(); i++)
+	{
+		if (getOutputRect(i).inside(p))
+			return i;
+	}
+	
+	return -1;
 }
 
 void ofxFlowNode::draw()

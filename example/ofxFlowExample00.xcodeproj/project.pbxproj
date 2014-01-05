@@ -137,10 +137,10 @@
 		4E91BEC41877615900F5C2F5 /* core */ = {
 			isa = PBXGroup;
 			children = (
-				4E91BEC51877615900F5C2F5 /* ofxFlowGraph.cpp */,
-				4E91BEC61877615900F5C2F5 /* ofxFlowGraph.h */,
 				4E91BEC71877615900F5C2F5 /* ofxFlowNode.cpp */,
 				4E91BEC81877615900F5C2F5 /* ofxFlowNode.h */,
+				4E91BEC51877615900F5C2F5 /* ofxFlowGraph.cpp */,
+				4E91BEC61877615900F5C2F5 /* ofxFlowGraph.h */,
 			);
 			path = core;
 			sourceTree = "<group>";

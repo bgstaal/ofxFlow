@@ -2,10 +2,18 @@
 #include "ofxFlowGraph.h"
 #include "ofPath.h"
 
+ofxFlowGraph::ofxFlowGraph ()
+{
+	ofRegisterMouseEvents(this);
+}
+
 void ofxFlowGraph::addNode (ofxFlowNodePtr node)
 {
 	_nodes.push_back(node);
-	ofRegisterMouseEvents(this);
+	ofAddListener(node->inputMouseDown, this, &ofxFlowGraph::_inputMouseDown);
+	ofAddListener(node->inputMouseUp, this, &ofxFlowGraph::_inputMouseUp);
+	ofAddListener(node->outputMouseDown, this, &ofxFlowGraph::_outputMouseDown);
+	ofAddListener(node->outputMouseUp, this, &ofxFlowGraph::_outputMouseUp);
 }
 
 void ofxFlowGraph::update()
@@ -48,6 +56,12 @@ void ofxFlowGraph::draw ()
 		
 		node->draw();
 	}
+	
+	ofSetColor(255, 255, 255, 50);
+	for (vector<TempConnection>::iterator c = _tempConnections.begin(); c != _tempConnections.end(); c++)
+	{
+		ofLine(c->p1.x, c->p1.y, ofGetMouseX(), ofGetMouseY());
+	}
 }
 
 void ofxFlowGraph::_drawInputConnections(ofxFlowNode *node)
@@ -85,12 +99,15 @@ void ofxFlowGraph::mousePressed(ofMouseEventArgs &e)
 		ofxFlowNodePtr &node = *n;
 		if (node->rect.inside(e))
 		{
-			ofPoint p = e;
-			e -= node->rect.position;
+			ofPoint p = e - node->rect.position;
 			node->mousePressed(p);
 			
-			_nodesBeingDragged.push_back(node);
-			_nodeOrigRect[node] = node->rect;
+			if (node->isDraggableAtPoint(p))
+			{
+				_nodesBeingDragged.push_back(node);
+				_nodeOrigRect[node] = node->rect;
+			}
+			
 			break;
 		}
 	}
@@ -105,12 +122,13 @@ void ofxFlowGraph::mouseReleased(ofMouseEventArgs &e)
 		ofxFlowNodePtr &node = *n;
 		if (node->rect.inside(e))
 		{
-			ofPoint p = e;
-			e -= node->rect.position;
+			ofPoint p = e - node->rect.position;
 			node->mouseReleased(p);
 			break;
 		}
 	}
+	
+	_tempConnections.clear();
 }
 
 void ofxFlowGraph::mouseMoved(ofMouseEventArgs &e)
@@ -127,5 +145,30 @@ void ofxFlowGraph::mouseDragged(ofMouseEventArgs &e)
 	}
 }
 
+void ofxFlowGraph::_inputMouseDown(ofxFlowNode::ofxFlowNodeEventArgs &e)
+{
+	TempConnection t;
+	t.p1 = e.node->rect.position + e.node->getInputRect(e.index).getCenter();
+	_tempConnections.push_back(t);
+	cout << "input mouse down" << endl;
+}
+
+void ofxFlowGraph::_outputMouseDown(ofxFlowNode::ofxFlowNodeEventArgs &e)
+{
+	TempConnection t;
+	t.p1 = e.node->rect.position + e.node->getOutputRect(e.index).getCenter();
+	_tempConnections.push_back(t);
+	cout << "ouput mouse down" << endl;
+}
+
+void ofxFlowGraph::_inputMouseUp(ofxFlowNode::ofxFlowNodeEventArgs &e)
+{
+	cout << "input mouse up" << endl;
+}
+
+void ofxFlowGraph::_outputMouseUp(ofxFlowNode::ofxFlowNodeEventArgs &e)
+{
+	cout << "output mouse up" << endl;
+}
 
 

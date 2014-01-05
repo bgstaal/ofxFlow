@@ -11,6 +11,18 @@ class ofxFlowNode
 	
 	public:
 	
+		class ofxFlowNodeEventArgs : public ofEventArgs
+		{
+			public:
+				ofxFlowNode *node;
+				int index;
+		};
+	
+		ofEvent<ofxFlowNodeEventArgs> inputMouseDown;
+		ofEvent<ofxFlowNodeEventArgs> inputMouseUp;
+		ofEvent<ofxFlowNodeEventArgs> outputMouseDown;
+		ofEvent<ofxFlowNodeEventArgs> outputMouseUp;
+	
 		struct Connection
 		{
 			Connection() {};
@@ -29,14 +41,17 @@ class ofxFlowNode
 	
 		// Don't override. Override customDraw instead.
 		void draw();
+	
 		void mousePressed(const ofPoint &p);
 		void mouseReleased(const ofPoint &p);
-	
+		bool isDraggableAtPoint(const ofPoint &p);
 		void connectInputTo(const string &inputParamName, ofxFlowNode *outputNode, const string &outputParamName);
 		void connectOutputTo(const string &outputParamName, ofxFlowNode *inputNode, const string &inputParamName);
 		void setInputValue(const string &name, ofPtr<ofAbstractParameter> value);
 		int getInputIndex(const string &inputName);
 		int getOutputIndex(const string &outputName);
+		int getInputIndexAtPoint(const ofPoint &p);
+		int getOutputIndexAtPoint(const ofPoint &p);
 		ofRectangle getInputRect(const int &index);
 		ofRectangle getInputRect(const string &inputName);
 		ofRectangle getOutputRect(const int &index);
@@ -55,6 +70,7 @@ class ofxFlowNode
 		void _addInput(string name);
 		void _addOutput(string name);
 		void _setOutputValue(string name, ofPtr<ofAbstractParameter> value);
+		void _notifyEvent(ofEvent<ofxFlowNodeEventArgs> &event, int index);
 	
 		template <typename inType>
 		inType _getInputValue(string name)
