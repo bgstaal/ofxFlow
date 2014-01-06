@@ -2,6 +2,8 @@
 #include "ofxFlowGraph.h"
 #include "ofPath.h"
 
+// TODO: remove ability to connect inputs tp inputs and so on
+
 ofxFlowGraph::ofxFlowGraph ()
 {
 	ofRegisterMouseEvents(this);
@@ -148,27 +150,47 @@ void ofxFlowGraph::mouseDragged(ofMouseEventArgs &e)
 void ofxFlowGraph::_inputMouseDown(ofxFlowNode::ofxFlowNodeEventArgs &e)
 {
 	TempConnection t;
-	t.p1 = e.node->rect.position + e.node->getInputRect(e.index).getCenter();
+	t.p1 = e.node->rect.position + e.node->getInputRect(e.paramName).getCenter();
+	t.node = e.node;
+	t.paramName = e.paramName;
 	_tempConnections.push_back(t);
-	cout << "input mouse down" << endl;
 }
 
 void ofxFlowGraph::_outputMouseDown(ofxFlowNode::ofxFlowNodeEventArgs &e)
 {
 	TempConnection t;
-	t.p1 = e.node->rect.position + e.node->getOutputRect(e.index).getCenter();
+	t.p1 = e.node->rect.position + e.node->getOutputRect(e.paramName).getCenter();
+	t.node = e.node;
+	t.paramName = e.paramName;
 	_tempConnections.push_back(t);
-	cout << "ouput mouse down" << endl;
 }
 
 void ofxFlowGraph::_inputMouseUp(ofxFlowNode::ofxFlowNodeEventArgs &e)
 {
-	cout << "input mouse up" << endl;
+	if (_tempConnections.size() > 0) // make the connection!
+	{
+		TempConnection c = _tempConnections[0];
+		ofxFlowNode *outNode = c.node;
+		string outputName = c.paramName;
+		ofxFlowNode *inNode = e.node;
+		string inputName = e.paramName;
+		
+		outNode->connectOutputTo(outputName, inNode, inputName);
+	}
 }
 
 void ofxFlowGraph::_outputMouseUp(ofxFlowNode::ofxFlowNodeEventArgs &e)
 {
-	cout << "output mouse up" << endl;
+	if (_tempConnections.size() > 0)
+	{
+		TempConnection c = _tempConnections[0];
+		ofxFlowNode *inNode = c.node;
+		string inputName = c.paramName;
+		ofxFlowNode *outNode = e.node;
+		string outputName = e.paramName;
+		
+		outNode->connectOutputTo(outputName, inNode, inputName);
+	}
 }
 
 

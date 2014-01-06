@@ -10,10 +10,20 @@ ofxFlowNode::ofxFlowNode (string name)
 void ofxFlowNode::connectInputTo(const string &inputParamName, ofxFlowNode *outputNode, const string &outputParamName)
 {
 	map<string, Connection>::iterator i = _inputConnections.find(inputParamName);
+	cout << "connect input to" << endl;
 	
-	if (i != _inputConnections.end() && i->second.node == outputNode && i->second.paramName == outputParamName)
+	if (i != _inputConnections.end())
 	{
-		return;
+		if (i->second.node == outputNode && i->second.paramName == outputParamName)
+		{
+			// stop an endless loop by returning at this point because the connection already exists
+			return;
+		}
+		else
+		{
+			// remove existing connection in the other end as it is about to be overwritten underneath
+			i->second.node->disconnectOutputTo(i->second.paramName, this, i->first);
+		}
 	}
 	
 	_inputConnections[inputParamName] = Connection(outputNode, outputParamName);
@@ -22,6 +32,7 @@ void ofxFlowNode::connectInputTo(const string &inputParamName, ofxFlowNode *outp
 
 void ofxFlowNode::connectOutputTo(const string &outputParamName, ofxFlowNode *inputNode, const string &inputParamName)
 {
+	cout << "connect output " << outputParamName << " to " << inputParamName << endl;
 	map<string, Connection>::iterator i = _outputConnections.find(outputParamName);
 	
 	if (i != _outputConnections.end() && i->second.node == inputNode && i->second.paramName == inputParamName)
@@ -31,6 +42,24 @@ void ofxFlowNode::connectOutputTo(const string &outputParamName, ofxFlowNode *in
 	
 	_outputConnections.insert(pair<string, Connection>(outputParamName, Connection(inputNode, inputParamName)));
 	inputNode->connectInputTo(inputParamName, this, outputParamName);
+}
+
+void ofxFlowNode::disconnectInputFrom(const string &inputParamName, ofxFlowNode *outputNode, const string &outputParamName)
+{
+	// not implemented yet
+}
+
+void ofxFlowNode::disconnectOutputTo(const string &outputParamName, ofxFlowNode *inputNode, const string &inputParamName)
+{
+	for (multimap<string, Connection>::iterator c = _outputConnections.lower_bound(outputParamName); c != _outputConnections.upper_bound(outputParamName); c++)
+	{
+		if (c->first == outputParamName && c->second.node == inputNode && c->second.paramName == inputParamName)
+		{
+			ofLog() << "remove this bitch!" << endl;
+			_outputConnections.erase(c);
+			break;
+		}
+	}
 }
 
 ofPtr<ofAbstractParameter> ofxFlowNode::getOutputValue(string name)
@@ -55,7 +84,6 @@ ofPtr<ofAbstractParameter> ofxFlowNode::_getInputValue(string name)
 {
 	return _inputValues.find(name)->second;
 }
-
 
 
 int ofxFlowNode::getInputIndex(const string &inputName)
@@ -83,6 +111,16 @@ int ofxFlowNode::getOutputIndex(const string &outputName)
 	}
 	
 	return -1;
+}
+
+string ofxFlowNode::getOutputName(int index)
+{
+	return _outputs[index];
+}
+
+string ofxFlowNode::getInputName(int index)
+{
+	return _inputs[index];
 }
 
 ofRectangle ofxFlowNode::getInputRect(const int &index)
@@ -127,8 +165,8 @@ void ofxFlowNode::mousePressed(const ofPoint &p)
 	int inIndex = getInputIndexAtPoint(p);
 	int outIndex = getOutputIndexAtPoint(p);
 	
-	if (inIndex >= 0) _notifyEvent(inputMouseDown, inIndex);
-	if (outIndex >= 0) _notifyEvent(outputMouseDown, outIndex);
+	if (inIndex >= 0) _notifyEvent(inputMouseDown, getInputName(inIndex));
+	if (outIndex >= 0) _notifyEvent(outputMouseDown, getOutputName(outIndex));
 }
 
 void ofxFlowNode::mouseReleased(const ofPoint &p)
@@ -136,14 +174,15 @@ void ofxFlowNode::mouseReleased(const ofPoint &p)
 	int inIndex = getInputIndexAtPoint(p);
 	int outIndex = getOutputIndexAtPoint(p);
 	
-	if (inIndex >= 0) _notifyEvent(inputMouseUp, inIndex);
-	if (outIndex >= 0) _notifyEvent(outputMouseUp, outIndex);
+	if (inIndex >= 0) _notifyEvent(inputMouseUp, getInputName(inIndex));
+	if (outIndex >= 0) _notifyEvent(outputMouseUp, getOutputName(outIndex));
 }
 
-void ofxFlowNode::_notifyEvent(ofEvent<ofxFlowNode::ofxFlowNodeEventArgs> &event, int index)
+void ofxFlowNode::_notifyEvent(ofEvent<ofxFlowNode::ofxFlowNodeEventArgs> &event, const string &paramName)
 {
+	cout << "param name: " << paramName << endl;
 	ofxFlowNodeEventArgs a;
-	a.index = index;
+	a.paramName = paramName;
 	a.node = this;
 	ofNotifyEvent(event, a, this);
 }

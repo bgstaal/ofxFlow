@@ -15,7 +15,7 @@ class ofxFlowNode
 		{
 			public:
 				ofxFlowNode *node;
-				int index;
+				string paramName;
 		};
 	
 		ofEvent<ofxFlowNodeEventArgs> inputMouseDown;
@@ -47,9 +47,13 @@ class ofxFlowNode
 		bool isDraggableAtPoint(const ofPoint &p);
 		void connectInputTo(const string &inputParamName, ofxFlowNode *outputNode, const string &outputParamName);
 		void connectOutputTo(const string &outputParamName, ofxFlowNode *inputNode, const string &inputParamName);
+		void disconnectInputFrom(const string &inputParamName, ofxFlowNode *outputNode, const string &outputParamName);
+		void disconnectOutputTo(const string &outputParamName, ofxFlowNode *inputNode, const string &inputParamName);
 		void setInputValue(const string &name, ofPtr<ofAbstractParameter> value);
 		int getInputIndex(const string &inputName);
 		int getOutputIndex(const string &outputName);
+		string getInputName(int index);
+		string getOutputName(int index);
 		int getInputIndexAtPoint(const ofPoint &p);
 		int getOutputIndexAtPoint(const ofPoint &p);
 		ofRectangle getInputRect(const int &index);
@@ -70,7 +74,7 @@ class ofxFlowNode
 		void _addInput(string name);
 		void _addOutput(string name);
 		void _setOutputValue(string name, ofPtr<ofAbstractParameter> value);
-		void _notifyEvent(ofEvent<ofxFlowNodeEventArgs> &event, int index);
+		void _notifyEvent(ofEvent<ofxFlowNodeEventArgs> &event, const string &paramName);
 	
 		template <typename inType>
 		inType _getInputValue(string name)

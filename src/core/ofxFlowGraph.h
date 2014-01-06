@@ -19,6 +19,8 @@ class ofxFlowGraph
 		struct TempConnection
 		{
 			ofPoint p1;
+			ofxFlowNode *node;
+			string paramName;
 		};
 	
 		vector<ofxFlowNodePtr> _nodes;
