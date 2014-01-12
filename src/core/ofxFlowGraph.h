@@ -21,6 +21,7 @@ class ofxFlowGraph
 			ofPoint p1;
 			ofxFlowNode *node;
 			string paramName;
+			ofxFlowNode::PORT_TYPE portType;
 		};
 	
 		vector<ofxFlowNodePtr> _nodes;

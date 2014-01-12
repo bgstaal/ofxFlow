@@ -11,6 +11,12 @@ class ofxFlowNode
 	
 	public:
 	
+		enum PORT_TYPE
+		{
+			PORT_TYPE_INPUT = 0,
+			PORT_TYPE_OUTPUT
+		};
+		
 		class ofxFlowNodeEventArgs : public ofEventArgs
 		{
 			public:

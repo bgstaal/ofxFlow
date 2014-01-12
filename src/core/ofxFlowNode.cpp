@@ -12,36 +12,51 @@ void ofxFlowNode::connectInputTo(const string &inputParamName, ofxFlowNode *outp
 	map<string, Connection>::iterator i = _inputConnections.find(inputParamName);
 	cout << "connect input to" << endl;
 	
-	if (i != _inputConnections.end())
+	if (outputNode == this)
 	{
-		if (i->second.node == outputNode && i->second.paramName == outputParamName)
-		{
-			// stop an endless loop by returning at this point because the connection already exists
-			return;
-		}
-		else
-		{
-			// remove existing connection in the other end as it is about to be overwritten underneath
-			i->second.node->disconnectOutputTo(i->second.paramName, this, i->first);
-		}
+		ofLog(OF_LOG_ERROR) << "Can't connect ports on the same node" << endl;
 	}
-	
-	_inputConnections[inputParamName] = Connection(outputNode, outputParamName);
-	outputNode->connectOutputTo(outputParamName, this, inputParamName);
+	else
+	{
+		if (i != _inputConnections.end())
+		{
+			if (i->second.node == outputNode && i->second.paramName == outputParamName)
+			{
+				// stop an endless loop by returning at this point because the connection already exists
+				return;
+			}
+			else
+			{
+				// remove existing connection in the other end as it is about to be overwritten underneath
+				i->second.node->disconnectOutputTo(i->second.paramName, this, i->first);
+			}
+		}
+		
+		_inputConnections[inputParamName] = Connection(outputNode, outputParamName);
+		outputNode->connectOutputTo(outputParamName, this, inputParamName);
+	}
 }
 
 void ofxFlowNode::connectOutputTo(const string &outputParamName, ofxFlowNode *inputNode, const string &inputParamName)
 {
 	cout << "connect output " << outputParamName << " to " << inputParamName << endl;
-	map<string, Connection>::iterator i = _outputConnections.find(outputParamName);
 	
-	if (i != _outputConnections.end() && i->second.node == inputNode && i->second.paramName == inputParamName)
+	if (inputNode == this)
 	{
-		return;
+		ofLog(OF_LOG_ERROR) << "Can't connect ports on the same node" << endl;
 	}
-	
-	_outputConnections.insert(pair<string, Connection>(outputParamName, Connection(inputNode, inputParamName)));
-	inputNode->connectInputTo(inputParamName, this, outputParamName);
+	else
+	{
+		map<string, Connection>::iterator i = _outputConnections.find(outputParamName);
+		
+		if (i != _outputConnections.end() && i->second.node == inputNode && i->second.paramName == inputParamName)
+		{
+			return;
+		}
+		
+		_outputConnections.insert(pair<string, Connection>(outputParamName, Connection(inputNode, inputParamName)));
+		inputNode->connectInputTo(inputParamName, this, outputParamName);
+	}
 }
 
 void ofxFlowNode::disconnectInputFrom(const string &inputParamName, ofxFlowNode *outputNode, const string &outputParamName)

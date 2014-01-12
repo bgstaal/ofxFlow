@@ -2,8 +2,6 @@
 #include "ofxFlowGraph.h"
 #include "ofPath.h"
 
-// TODO: remove ability to connect inputs tp inputs and so on
-
 ofxFlowGraph::ofxFlowGraph ()
 {
 	ofRegisterMouseEvents(this);
@@ -153,6 +151,7 @@ void ofxFlowGraph::_inputMouseDown(ofxFlowNode::ofxFlowNodeEventArgs &e)
 	t.p1 = e.node->rect.position + e.node->getInputRect(e.paramName).getCenter();
 	t.node = e.node;
 	t.paramName = e.paramName;
+	t.portType = ofxFlowNode::PORT_TYPE_INPUT;
 	_tempConnections.push_back(t);
 }
 
@@ -162,6 +161,7 @@ void ofxFlowGraph::_outputMouseDown(ofxFlowNode::ofxFlowNodeEventArgs &e)
 	t.p1 = e.node->rect.position + e.node->getOutputRect(e.paramName).getCenter();
 	t.node = e.node;
 	t.paramName = e.paramName;
+	t.portType = ofxFlowNode::PORT_TYPE_OUTPUT;
 	_tempConnections.push_back(t);
 }
 
@@ -170,12 +170,20 @@ void ofxFlowGraph::_inputMouseUp(ofxFlowNode::ofxFlowNodeEventArgs &e)
 	if (_tempConnections.size() > 0) // make the connection!
 	{
 		TempConnection c = _tempConnections[0];
-		ofxFlowNode *outNode = c.node;
-		string outputName = c.paramName;
-		ofxFlowNode *inNode = e.node;
-		string inputName = e.paramName;
 		
-		outNode->connectOutputTo(outputName, inNode, inputName);
+		if (c.portType == ofxFlowNode::PORT_TYPE_INPUT)
+		{
+			ofLog(OF_LOG_ERROR) << "can't connect input to input" << endl;
+		}
+		else
+		{
+			ofxFlowNode *outNode = c.node;
+			string outputName = c.paramName;
+			ofxFlowNode *inNode = e.node;
+			string inputName = e.paramName;
+			
+			outNode->connectOutputTo(outputName, inNode, inputName);
+		}
 	}
 }
 
@@ -184,12 +192,20 @@ void ofxFlowGraph::_outputMouseUp(ofxFlowNode::ofxFlowNodeEventArgs &e)
 	if (_tempConnections.size() > 0)
 	{
 		TempConnection c = _tempConnections[0];
-		ofxFlowNode *inNode = c.node;
-		string inputName = c.paramName;
-		ofxFlowNode *outNode = e.node;
-		string outputName = e.paramName;
 		
-		outNode->connectOutputTo(outputName, inNode, inputName);
+		if (c.portType == ofxFlowNode::PORT_TYPE_OUTPUT)
+		{
+			ofLog(OF_LOG_ERROR) << "can't connect output to output" << endl;
+		}
+		else
+		{
+			ofxFlowNode *inNode = c.node;
+			string inputName = c.paramName;
+			ofxFlowNode *outNode = e.node;
+			string outputName = e.paramName;
+			
+			outNode->connectOutputTo(outputName, inNode, inputName);
+		}
 	}
 }
 
