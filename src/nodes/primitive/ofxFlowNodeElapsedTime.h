@@ -13,6 +13,11 @@ class ofxFlowNodeElapsedTime : public ofxFlowNodeValue<T>
 		{
 			
 		}
+		
+		virtual bool validate()
+		{
+			return true;
+		}
 	
 		virtual void evaluate ()
 		{

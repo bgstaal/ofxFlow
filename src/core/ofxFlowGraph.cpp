@@ -40,7 +40,11 @@ void ofxFlowGraph::_evaluateInputs(ofxFlowNode *node)
 		node->setInputValue(c->first, c->second.node->getOutputValue(c->second.paramName));
 	}
 	
-	node->evaluate();
+	if (node->validate())
+	{
+		cout << node->name << " is valid: " << node->validate() << endl;
+		node->evaluate();
+	}
 }
 
 void ofxFlowGraph::draw ()

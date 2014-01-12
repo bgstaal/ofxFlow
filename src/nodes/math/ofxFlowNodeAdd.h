@@ -17,14 +17,23 @@ class ofxFlowNodeAdd : public ofxFlowNode
 		void customDraw()
 		{
 			ofxFlowNode::customDraw();
-			stringstream ss;
-			ss << _getInputValue("value1")->toString() << " + " << _getInputValue("value2")->toString() << " = " << getOutputValue("result")->toString() << endl;
 			
-			ofSetColor(150);
-			ofDrawBitmapString(ss.str(), 10, 100);
+			if (validate())
+			{
+				stringstream ss;
+				ss << _getInputValue("value1")->toString() << " + " << _getInputValue("value2")->toString() << " = " << getOutputValue("result")->toString() << endl;
+				
+				ofSetColor(150);
+				ofDrawBitmapString(ss.str(), 10, 100);
+			}
+		}
+	
+		virtual bool validate()
+		{
+			return _doesAllInputValuesExist();
 		}
 		
-		void evaluate()
+		virtual void evaluate()
 		{
 			float v1 = _getInputValue<float>("value1");
 			float v2 = _getInputValue<float>("value2");

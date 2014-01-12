@@ -14,6 +14,11 @@ class ofxFlowNodeSin : public ofxFlowNode
 			_addOutput("result");
 		};
 	
+		virtual bool validate()
+		{
+			return _doesAllInputValuesExist();
+		}
+	
 		virtual void evaluate ()
 		{
 			T r = sin(_getInputValue<T>("value1"));

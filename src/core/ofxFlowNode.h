@@ -42,6 +42,7 @@ class ofxFlowNode
 	
 		ofxFlowNode(std::string name);
 	
+		virtual bool validate() = 0;
 		virtual void evaluate() = 0;
 		virtual void customDraw();
 	
@@ -81,6 +82,7 @@ class ofxFlowNode
 		void _addOutput(string name);
 		void _setOutputValue(string name, ofPtr<ofAbstractParameter> value);
 		void _notifyEvent(ofEvent<ofxFlowNodeEventArgs> &event, const string &paramName);
+		bool _doesAllInputValuesExist();
 	
 		template <typename inType>
 		inType _getInputValue(string name)

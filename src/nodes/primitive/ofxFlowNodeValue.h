@@ -15,8 +15,12 @@ class ofxFlowNodeValue : public ofxFlowNode
 			value = ofPtr<ofParameter<T> >(new ofParameter<T>(val));
 			_addOutput("value");
 		}
-		
 	
+		virtual bool validate()
+		{
+			return true;
+		}
+		
 		virtual void evaluate()
 		{
 			_setOutputValue("value", value);

@@ -97,7 +97,25 @@ void ofxFlowNode::_setOutputValue(string name, ofPtr<ofAbstractParameter> value)
 
 ofPtr<ofAbstractParameter> ofxFlowNode::_getInputValue(string name)
 {
-	return _inputValues.find(name)->second;
+	map<string, ofPtr<ofAbstractParameter> >::iterator i = _inputValues.find(name);
+	
+	if (i == _inputValues.end())
+	{
+		ofLog(OF_LOG_ERROR) << "can't find input value named " << name << endl;
+	}
+	
+	return i->second; // is there a fix for this crashing if iterator is end()?
+}
+
+bool ofxFlowNode::_doesAllInputValuesExist()
+{
+	for (vector<string>::iterator i = _inputs.begin(); i != _inputs.end(); i++)
+	{
+		map<string, ofPtr<ofAbstractParameter> >::iterator val = _inputValues.find(*i);
+		if (val == _inputValues.end()) return false;
+	}
+	
+	return true;
 }
 
 

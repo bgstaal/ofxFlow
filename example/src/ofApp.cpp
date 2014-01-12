@@ -36,12 +36,14 @@ void ofApp::setup()
 	additionNode->connectInputTo("value1", valueNode.get(), "value");
 	additionNode->connectInputTo("value2", valueNode.get(), "value");
 	
+	/*
 	additionNode2->connectInputTo("value1", additionNode.get(), "result");
 	additionNode2->connectInputTo("value2", valueNode.get(), "value");
 	
 	additionNode3->connectInputTo("value1", sinNode.get(), "result");
 	additionNode3->connectInputTo("value2", additionNode2.get(), "result");
 	sinNode->connectInputTo("value1", timeNode.get(), "value");
+	 */
 	
 }
 
